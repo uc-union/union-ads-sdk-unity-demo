@@ -30,3 +30,9 @@ proguard/
 
 # Android Studio captures folder
 captures/
+
+*.meta
+
+Library/
+Temp/
+ProjectSettings/
