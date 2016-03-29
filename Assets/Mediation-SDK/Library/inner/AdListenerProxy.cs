@@ -27,7 +27,7 @@ namespace Assets.Mediation_SDK.Library.inner
             mListener.onClosed(mAd);
         }
 
-        public void onAdOpened(AndroidJavaObject ad)
+        public void onAdShowed(AndroidJavaObject ad)
         {
             mListener.onOpened(mAd);
         }
