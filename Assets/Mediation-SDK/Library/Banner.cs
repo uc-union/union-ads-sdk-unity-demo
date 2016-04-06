@@ -10,6 +10,7 @@ namespace Assets.Mediation_SDK.Library
 #if UNITY_ANDROID
     public class Banner : AdBase, IDisposable
     {
+        public static int WRAP_CONTENT = -2;
         private AndroidJavaObject mAndroidAdView;
         private Rect mRect;
         private bool mHasAttachToParent = false;
@@ -28,6 +29,10 @@ namespace Assets.Mediation_SDK.Library
             }));
         }
 
+        public void setShowPos(int x, int y)
+        {
+            setShowRect(new Rect(x, y, WRAP_CONTENT, WRAP_CONTENT));
+        }
 
         public void setShowRect(Rect rect)
         {
@@ -47,7 +52,8 @@ namespace Assets.Mediation_SDK.Library
             if (!mHasAttachToParent)
             {
                 Debug.Log("Banner::First attach to Parent!");
-                layoutParams = new AndroidJavaObject("android.view.ViewGroup$MarginLayoutParams", (int)width, (int)height);
+               // layoutParams = new AndroidJavaObject("android.view.ViewGroup$MarginLayoutParams", (int)width, (int)height);
+                layoutParams = new AndroidJavaObject("android.widget.FrameLayout$LayoutParams", (int)width, (int)height);
                 view.Call("addView", mAndroidAdView, layoutParams);
                 mHasAttachToParent = true;
             }
@@ -55,8 +61,8 @@ namespace Assets.Mediation_SDK.Library
            // else {
                 Debug.Log("Banner::AttachToParent");
                 layoutParams = mAndroidAdView.Call<AndroidJavaObject>("getLayoutParams");
-          //  }
-            layoutParams.Call("setMargins", (int)x, (int)y, 0, 0);
+            //  }
+             layoutParams.Call("setMargins", (int)x, (int)y, 0, 0);
         }
 
         private void removeAdViewFromParent()

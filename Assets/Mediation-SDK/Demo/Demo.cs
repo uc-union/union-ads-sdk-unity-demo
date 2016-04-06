@@ -34,13 +34,12 @@ namespace Assets.Mediation_SDK.Demo
 
             GUILayout.BeginScrollView(new Vector2(0, 0));
             {
-                Rect bannerRect = new Rect(200, 0, 400, 100);
                 if (GUILayout.Button("Show Banner", GUILayout.Width(BTN_WIDHT), GUILayout.Height(BTN_HEIGHT)))
                 {
                     if (mBanner == null)
                     {
                         mBanner = new Banner();
-                        mBanner.setShowRect(bannerRect);
+                        mBanner.setShowPos(200,0);
                         mBanner.setListener(new BannerAdListener(mBanner));
                     }
                     AdRequest adRequest = new AdRequest.Builder()//
