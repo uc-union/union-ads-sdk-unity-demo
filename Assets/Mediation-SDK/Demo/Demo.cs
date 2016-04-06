@@ -44,7 +44,7 @@ namespace Assets.Mediation_SDK.Demo
                     }
                     AdRequest adRequest = new AdRequest.Builder()//
                         .pub("ssr@debugbanner")//
-                        .testDeviceId("").build();
+                        .build();
                     mBanner.load(adRequest);
                     Debug.Log("Demo::start load banner!");
                 }
@@ -58,7 +58,7 @@ namespace Assets.Mediation_SDK.Demo
                     }
                     AdRequest adRequest = new AdRequest.Builder()//
                         .pub("ssr@debuginterstitial")//
-                        .testDeviceId("").build();
+                        .build();
                     mInterstitial.load(adRequest);
                     Debug.Log("Demo::start load interstitial!");
                 }
@@ -99,7 +99,6 @@ namespace Assets.Mediation_SDK.Demo
                         AdRequest adRequest = new AdRequest.Builder()//
                             .pub("ssr@debugnative")//
                                                                //.withParams(AdRequestOption.newNativeBuilder().requestCoverImageSize(480, 320).requestExtraResource(false).build())//
-                                                               // .testDeviceId("")
                             .build();
                         mNativeAd.load(adRequest);
                         Debug.Log("Demo::start load native ad!");
