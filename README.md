@@ -2,5 +2,5 @@
 
 union-ads-sdk-unity-demo is the Unity version of Union Ads SDK Demo project。    
 
-More details information about how to integrate  Union Ads SDK , refer [wiki](https://github.com/uc-union/union-ads-sdk-unity-demo/wiki)
+More details information about how to integrate  Union Ads SDK , please refer to [wiki](https://github.com/uc-union/union-ads-sdk-unity-demo/wiki)
 
