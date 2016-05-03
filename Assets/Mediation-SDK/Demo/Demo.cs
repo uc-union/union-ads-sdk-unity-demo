@@ -98,7 +98,6 @@ namespace Assets.Mediation_SDK.Demo
 
                         AdRequest adRequest = new AdRequest.Builder()//
                             .pub("ssr@debugnative")//
-                                                               //.withParams(AdRequestOption.newNativeBuilder().requestCoverImageSize(480, 320).requestExtraResource(false).build())//
                             .build();
                         mNativeAd.load(adRequest);
                         Debug.Log("Demo::start load native ad!");
