@@ -77,7 +77,7 @@ namespace Assets.Mediation_SDK.Library
             }
         }
 
-        public string getCoverUrl()
+        public List<CoverImage> getCovers()
         {
             if (mAndroidNativeAdInfo == null)
             {
@@ -85,18 +85,48 @@ namespace Assets.Mediation_SDK.Library
             }
             try
             {
-                AndroidJavaObject cover = mAndroidNativeAdInfo.Call<AndroidJavaObject>("getCover");
-                if (cover == null)
+                AndroidJavaObject covers = mAndroidNativeAdInfo.Call<AndroidJavaObject>("getCovers");
+                if (covers == null)
                 {
-                    return "";
+                    return null;
                 }
-                return cover.Call<string>("getUrl");
+                List<CoverImage> images = new List<CoverImage>();
+                AndroidList list = new AndroidList(covers);
+                for(int i = 0; i < list.size(); ++i)
+                {
+                    images.Add(new CoverImage(list.at(i)));
+                }
+                return images;
+
             }
             catch (Exception e)
             {
                 Debug.Log(e.StackTrace);
-                return "";
             }
+            return null;
+        }
+
+        public CoverImage getFilteredCover(int width, int height)
+        {
+            if (mAndroidNativeAdInfo == null)
+            {
+                return null;
+            }
+            try
+            {
+                AndroidJavaObject covers = mAndroidNativeAdInfo.Call<AndroidJavaObject>("getCovers");
+                if (covers == null)
+                {
+                    return null;
+                }
+                return ImageFilter.filterImageBySize(covers, width, height);
+            }
+            catch (Exception e)
+            {
+                Debug.Log(e.Message);
+                Debug.Log(e.StackTrace);
+            }
+            return null;
         }
         public delegate void AdOnLoadedCallback(Ad ad);
         private class NativeAdListener : AdListener

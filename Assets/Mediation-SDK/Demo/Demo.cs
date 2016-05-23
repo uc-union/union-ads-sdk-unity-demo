@@ -74,16 +74,28 @@ namespace Assets.Mediation_SDK.Demo
                             {
                                 mMainThreadLooper.Post(() => {
                                 showNativeAd = true;
-                                    Debug.Log("Demo::onNativeAdLoaded_[icon_url:" + mNativeAd.getIconUrl() + "][cover_url:" + mNativeAd.getCoverUrl() + "]");
+                                    Debug.Log("Demo::onNativeAdLoaded_[icon_url:" + mNativeAd.getIconUrl() + "]");
                                     if (mNativeAd.getIconUrl() != null && mNativeAd.getIconUrl().Length > 0)
                                     {
                                         StartCoroutine(LoadImage(mNativeAd.getIconUrl(), delegate (Texture2D texture) {
                                             mIconBg = texture;
                                         }));
                                     }
-                                    if (mNativeAd.getCoverUrl() != null && mNativeAd.getCoverUrl().Length > 0)
+                                    CoverImage cover = mNativeAd.getFilteredCover(320, 480);
+                                    if(cover == null)
                                     {
-                                        StartCoroutine(LoadImage(mNativeAd.getCoverUrl(), delegate (Texture2D texture) {
+                                        Debug.Log("Demo::No image matched");
+                                        List <CoverImage> covers = mNativeAd.getCovers();
+                                        if(covers.Count > 0)
+                                        {
+                                            cover = covers[0];
+                                        }
+                                    }
+
+                                    if (cover != null &&¡¡cover.getUrl() != null && cover.getUrl().Length > 0)
+                                    {
+                                        Debug.Log("Demo::onNativeAdLoaded_[cover_url:" + cover.getUrl() + "]");
+                                        StartCoroutine(LoadImage(cover.getUrl(), delegate (Texture2D texture) {
                                             mCoverBg = texture;
                                         }));
                                     }
