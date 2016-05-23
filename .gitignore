@@ -36,3 +36,7 @@ captures/
 Library/
 Temp/
 ProjectSettings/
+
+.idea/
+*.swp
+*.swo
