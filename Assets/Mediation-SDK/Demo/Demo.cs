@@ -92,7 +92,7 @@ namespace Assets.Mediation_SDK.Demo
                                         }
                                     }
 
-                                    if (cover != null &&¡¡cover.getUrl() != null && cover.getUrl().Length > 0)
+                                    if (cover != null && cover.getUrl() != null && cover.getUrl().Length > 0)
                                     {
                                         Debug.Log("Demo::onNativeAdLoaded_[cover_url:" + cover.getUrl() + "]");
                                         StartCoroutine(LoadImage(cover.getUrl(), delegate (Texture2D texture) {
