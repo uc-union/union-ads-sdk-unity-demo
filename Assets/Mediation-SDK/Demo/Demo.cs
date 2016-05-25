@@ -10,11 +10,12 @@ namespace Assets.Mediation_SDK.Demo
 #if UNITY_ANDROID
     public class Demo : MonoBehaviour
     {
-        private static int BTN_WIDHT = 200;
+        private static int BTN_WIDHT = 300;
         private static int BTN_HEIGHT = 100;
         private static int TEXT_SIZE = 25;
 
-        private Banner mBanner;
+        private Banner mTopBanner;
+        private Banner mBottomBanner;
         private Interstitial mInterstitial;
         private NativeAd mNativeAd;
 
@@ -27,28 +28,55 @@ namespace Assets.Mediation_SDK.Demo
             AdSDK.start();
         }
 
+        int GetScreenDensityDpi()
+        {
+            AndroidJavaClass unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
+            AndroidJavaObject activity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
+            AndroidJavaObject wm = activity.Call<AndroidJavaObject>("getWindowManager");
+            AndroidJavaObject defaultDisplay = wm.Call<AndroidJavaObject>("getDefaultDisplay");
+            AndroidJavaObject displayMetrics = new AndroidJavaObject("android.util.DisplayMetrics");
+            defaultDisplay.Call("getMetrics", displayMetrics);
+            return displayMetrics.Get<int>("densityDpi");
+        }
+
         void OnGUI()
         {
             GUI.skin.button.fontSize = TEXT_SIZE;
             GUI.skin.textArea.fontSize = TEXT_SIZE;
 
+            GUILayout.Box("Top Banner Show Area", GUILayout.Width(Screen.width), GUILayout.Height(200));
             GUILayout.BeginScrollView(new Vector2(0, 0));
             {
-                if (GUILayout.Button("Show Banner", GUILayout.Width(BTN_WIDHT), GUILayout.Height(BTN_HEIGHT)))
+                if (GUILayout.Button("Show Top Banner", GUILayout.Width(BTN_WIDHT), GUILayout.Height(BTN_HEIGHT)))
                 {
-                    if (mBanner == null)
+                    if (mTopBanner == null)
                     {
-                        mBanner = new Banner();
-                        mBanner.setShowPos(200,0);
-                        mBanner.setListener(new BannerAdListener(mBanner));
+                        mTopBanner = new Banner();
+                        mTopBanner.setShowPos(0,0);
+                        mTopBanner.setListener(new BannerAdListener(mTopBanner));
                     }
                     AdRequest adRequest = new AdRequest.Builder()//
                         .pub("ssr@debugbanner")//
                         .build();
-                    mBanner.load(adRequest);
-                    Debug.Log("Demo::start load banner!");
+                    mTopBanner.load(adRequest);
+                    Debug.Log("Demo::start load top banner!");
                 }
-
+                if (GUILayout.Button("Show Bottom Banner", GUILayout.Width(BTN_WIDHT), GUILayout.Height(BTN_HEIGHT)))
+                {
+                    if (mBottomBanner == null)
+                    {
+                        mBottomBanner = new Banner();
+                        int dpi = GetScreenDensityDpi();
+                        int y = (int)(50 * (dpi / 160));
+                        mBottomBanner.setShowPos(0, Screen.height - y);
+                        mBottomBanner.setListener(new BannerAdListener(mBottomBanner));
+                    }
+                    AdRequest adRequest = new AdRequest.Builder()//
+                        .pub("ssr@debugbanner")//
+                        .build();
+                    mBottomBanner.load(adRequest);
+                    Debug.Log("Demo::start load bottom banner!");
+                }
                 if (GUILayout.Button("Show Interstitial", GUILayout.Width(BTN_WIDHT), GUILayout.Height(BTN_HEIGHT)))
                 {
                     if (mInterstitial == null)
@@ -154,9 +182,13 @@ namespace Assets.Mediation_SDK.Demo
         {
             Debug.Log("OnDestroy!");
             // Dispose of ads when the scene is destroyed
-            if (mBanner != null)
+            if (mTopBanner != null)
             {
-                mBanner.Dispose();
+                mTopBanner.Dispose();
+            }
+            if (mBottomBanner != null)
+            {
+                mBottomBanner.Dispose();
             }
             if (mInterstitial != null)
             {
