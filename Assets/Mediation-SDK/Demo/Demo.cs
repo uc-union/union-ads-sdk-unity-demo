@@ -17,6 +17,7 @@ namespace Assets.Mediation_SDK.Demo
         private Banner mTopBanner;
         private Banner mBottomBanner;
         private Interstitial mInterstitial;
+        private Interstitial mInterstitialVideo;
         private NativeAd mNativeAd;
 
         private bool showNativeAd = false;
@@ -89,6 +90,19 @@ namespace Assets.Mediation_SDK.Demo
                         .build();
                     mInterstitial.load(adRequest);
                     Debug.Log("Demo::start load interstitial!");
+                }
+                if (GUILayout.Button("Show Video", GUILayout.Width(BTN_WIDHT), GUILayout.Height(BTN_HEIGHT)))
+                {
+                    if (mInterstitialVideo == null)
+                    {
+                        mInterstitialVideo = new Interstitial();
+                        mInterstitialVideo.setListener(new InterstitialAdListener(mInterstitialVideo));
+                    }
+                    AdRequest adRequest = new AdRequest.Builder()//
+                        .pub("ssr@debugvideo")//
+                        .build();
+                    mInterstitialVideo.load(adRequest);
+                    Debug.Log("Demo::start load video!");
                 }
 
                 if (GUILayout.Button("Show Native", GUILayout.Width(BTN_WIDHT), GUILayout.Height(BTN_HEIGHT)))
@@ -193,6 +207,10 @@ namespace Assets.Mediation_SDK.Demo
             if (mInterstitial != null)
             {
                 mInterstitial.Dispose();
+            }
+            if (mInterstitialVideo != null)
+            {
+                mInterstitialVideo.Dispose();
             }
             if (mNativeAd != null)
             {
